@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Speech To Text Editor</title>
+    <style>
+        body{
+            height: 100vh;
+            display: grid;
+            place-items : center ;
+            align-items:center ;
+            background: linear-gradient(to bottom,rgb(48, 92, 48),rgb(76, 116, 76),green);
+        }
+        .container{
+            display:grid ;
+            gap: 30px;
+        }
+        button{
+            height: 30px;
+            background-color: lightslategrey;
+            border: none;
+            color: white;
+            font-size: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+    <textarea  id="text" cols="30" rows="10"></textarea>
+    <button id="listen">Listen</button>
+    <button id="pause" >Pause </button>
+
+</div>
+    <script>
+        let text = document.getElementById("text");
+        let listen = document.getElementById("listen");
+        let pause = document.getElementById('pause');
+
+        let speech = new webkitSpeechRecognition();
+        speech.lang = "tr-TR";
+        speech.continuous = true;
+
+        listen.onclick = () => speech.start();
+        pause.onclick=()=>speech.stop();
+
+        speech.onresult = (event) => {
+            let arr = event.results;
+            text.value += arr[arr.length -1 ][0].transcript;
+        };
+
+        
+    </script>
+</body>
+</html>

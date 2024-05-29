@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Puzzle Game</title>
+</head>
+<body>
+    <h1 style="text-align: center;">Puzzle Game</h1>
+    <div id="puzzle"></div>
+    <button onclick="shuffle()">Shuffle</button>
+    <script>
+        const puzzle = document.getElementById('puzzle');
+        let pieces = [];
+
+        function initPuzzle() {
+            for (let i = 0; i < 9; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'piece';
+                piece.innerText = i === 8 ? '' : i + 1;
+                piece.style.order = i;
+                piece.addEventListener('click', movePiece);
+                puzzle.appendChild(piece);
+                pieces.push(piece);
+            }
+        }
+
+        function shuffle() {
+            for (let i = pieces.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [pieces[i].style.order, pieces[j].style.order] = [pieces[j].style.order, pieces[i].style.order];
+            }
+        }
+
+        function movePiece(event) {
+            const emptyPiece = pieces.find(piece => piece.innerText === '');
+            const clickedPiece = event.target;
+            const emptyIndex = parseInt(emptyPiece.style.order);
+            const clickedIndex = parseInt(clickedPiece.style.order);
+            const distance = Math.abs(emptyIndex - clickedIndex);
+            if (distance === 1 || distance === 3) {
+                [emptyPiece.style.order, clickedPiece.style.order] = [clickedPiece.style.order, emptyPiece.style.order];
+            }
+            checkWin();
+        }
+
+        function checkWin() {
+            let order = '';
+            pieces.forEach(piece => order += piece.style.order);
+            if (order === '012345678') {
+                setTimeout(() => alert('Congratulations, you completed the puzzle!'), 100);
+            }
+        }
+
+        initPuzzle();
+    </script>
+</body>
+</html>

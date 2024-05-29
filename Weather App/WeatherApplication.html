@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Weather Application</title>
+</head>
+<body>
+    <h1>Weather Application</h1>
+    <div class="weather-container">
+        <input type="text" id="city" placeholder="City Name">
+        <button onclick="getWeather()">Get Weather</button>
+        <div id="weather-info">
+            <p id="temperature"></p>
+            <p id="description"></p>
+        </div>
+        <img id="weather-icon" src="./weather-icon.jpeg" alt="Weather Icon">
+    </div>
+    
+    <script>
+        async function getWeather() {
+            const city = document.getElementById('city').value;
+            const apiKey = '17c43a6d7616977c1d5fe0c740fe8943';
+            const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`);
+            const data = await response.json();
+            if (data.cod === 200) {
+                document.getElementById('temperature').innerText = `Temperature: ${data.main.temp}°C`;
+                document.getElementById('description').innerText = `Weather: ${data.weather[0].description}`;
+                document.getElementById('weather-icon').src = `http://openweathermap.org/img/w/${data.weather[0].icon}.png`;
+            } else {
+                document.getElementById('temperature').innerText = '';
+                document.getElementById('description').innerText = 'Weather information not available';
+                document.getElementById('weather-icon').src = './weather-icon.jpeg'; 
+            }
+        }
+    </script>
+</body>
+</html>

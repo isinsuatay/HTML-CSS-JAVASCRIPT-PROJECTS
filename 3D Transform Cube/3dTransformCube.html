@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Transform Example</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="cube">
+    <div class="face front" onclick="showFace('front')"></div>
+    <div class="face back" onclick="showFace('back')"></div>
+    <div class="face right" onclick="showFace('right')"></div>
+    <div class="face left" onclick="showFace('left')"></div>
+
+  </div>
+
+  <script>
+    function rotateCube() {
+      const cube = document.querySelector('.cube');
+      cube.style.animation = 'rotate 10s linear infinite';
+
+      const faces = document.querySelectorAll('.face');
+      faces.forEach((face) => {
+        face.style.visibility = 'visible';
+        face.onclick = null; 
+      });
+    }
+
+    function showFace(faceName) {
+      const cube = document.querySelector('.cube');
+      cube.style.animation = 'none';
+
+      const faces = document.querySelectorAll('.face');
+      faces.forEach((face) => {
+        if (face.classList.contains(faceName)) {
+          face.style.visibility = 'visible';
+          face.style.transform = 'none'; 
+        } else {
+          face.style.visibility = 'hidden';
+        }
+      });
+
+      setTimeout(rotateCube, 2000);
+    }
+
+    rotateCube();
+  </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Simple E-commerce Cart</title>
+</head>
+<body>
+    <h1>Simple E-commerce Cart</h1>
+    <div class="container">
+        <div class="products">
+            <h2>Products</h2>
+            <div class="product">
+                <img src="./image/product-1.jpeg" alt="Product 1">
+                <p>Product 1 - $10</p>
+                <button onclick="addToCart('Product 1', 10)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="./image/product-2.jpeg" alt="Product 2">
+                <p>Product 2 - $15</p>
+                <button onclick="addToCart('Product 2', 15)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="./image/product-3.jpeg" alt="Product 3">
+                <p>Product 3 - $25</p>
+                <button onclick="addToCart('Product 3', 25)">Add to Cart</button>
+            </div>
+            <div class="product">
+                <img src="./image/product-4.jpeg" alt="Product 4">
+                <p>Product 4 - $20</p>
+                <button onclick="addToCart('Product 4', 20)">Add to Cart</button>
+            </div>
+        </div>
+        <div class="cart">
+            <h2>Cart</h2>
+            <ul id="cart"></ul>
+            <p id="total">Total: $0</p>
+            <button onclick="clearCart()">Empty Cart</button>
+        </div>
+    </div>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(product, price) {
+            cart.push({ product, price });
+            total += price;
+            updateCart();
+        }
+
+        function removeFromCart(index) {
+            const removed = cart.splice(index, 1)[0];
+            total -= removed.price;
+            updateCart();
+        }
+
+        function clearCart() {
+            cart = [];
+            total = 0;
+            updateCart();
+        }
+
+        function updateCart() {
+            const cartList = document.getElementById('cart');
+            cartList.innerHTML = '';
+            cart.forEach((item, index) => {
+                const listItem = document.createElement('li');
+                listItem.innerText = `${item.product} - $${item.price}`;
+                const removeButton = document.createElement('button');
+                removeButton.innerText = 'Remove';
+                removeButton.onclick = () => removeFromCart(index);
+                listItem.appendChild(removeButton);
+                cartList.appendChild(listItem);
+            });
+            document.getElementById('total').innerText = `Total: $${total}`;
+        }
+    </script>
+</body>
+</html>
